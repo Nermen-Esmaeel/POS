@@ -24,6 +24,23 @@ public function run()
         'Status' => 'مفعل',
         ]);
 
+        $user1 = User::create([
+            'name' => 'nermen',
+            'email' => 'nermen@gmail.com',
+            'password' => bcrypt('123456'),
+            'roles_name' => ["user"],
+            'Status' => 'مفعل',
+            ]);
+
+
+        $user2 = User::create([
+            'name' => 'bana',
+            'email' => 'bana@gmail.com',
+            'password' => bcrypt('123456'),
+            'roles_name' => ["user"],
+            'Status' => 'مفعل',
+            ]);
+
         $role = Role::create(['name' => 'owner']);
 
         $permissions = Permission::pluck('id','id')->all();
@@ -32,6 +49,15 @@ public function run()
 
         $user->assignRole([$role->id]);
 
+        $role1 = Role::create(['name' => 'user']);
+        $permissions1 = Permission::pluck('id','id')->all();
+        $role1->syncPermissions($permissions);
+        $user1->assignRole([$role->id]);
 
+
+        $permissions2 = Permission::pluck('id','id')->all();
+        $role1->syncPermissions($permissions);
+        $user2->assignRole([$role->id]);
 }
 }
+

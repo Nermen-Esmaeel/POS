@@ -39,7 +39,9 @@ class InvoiceController extends Controller
     public function create()
     {
         $sections = Section::all();
-        return view('invoices.add_invoice', compact('sections'));
+        $users= DB::table('users')->where('roles_name' , '["user"]')->get();
+        // dd($user);
+        return view('invoices.add_invoice', compact('sections' , 'users'));
     }
 
     /**
@@ -52,6 +54,7 @@ class InvoiceController extends Controller
     {
         Invoice::create([
             'invoice_number' => $request->invoice_number,
+            'user_id' => $request->User,
             'invoice_Date' => $request->invoice_Date,
             'Due_date' => $request->Due_date,
             'product' => $request->product,
@@ -126,7 +129,7 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        $invoices = invoices::where('id', $id)->first();
+        $invoices = Invoice::where('id', $id)->first();
         return view('invoices.status_update', compact('invoices'));
     }
 
@@ -138,8 +141,8 @@ class InvoiceController extends Controller
      */
     public function edit($id)
     {
-        $invoices = invoices::where('id', $id)->first();
-        $sections = sections::all();
+        $invoices = Invoice::where('id', $id)->first();
+        $sections = Section::all();
         return view('invoices.edit_invoice', compact('sections', 'invoices'));
     }
 
@@ -153,7 +156,7 @@ class InvoiceController extends Controller
     public function update(Request $request)
     {
 
-        $invoices = invoices::findOrFail($request->invoice_id);
+        $invoices = Invoice::findOrFail($request->invoice_id);
         $invoices->update([
             'invoice_number' => $request->invoice_number,
             'invoice_Date' => $request->invoice_Date,
@@ -182,7 +185,7 @@ class InvoiceController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->invoice_id;
-        $invoices = invoices::where('id', $id)->first();
+        $invoices = Invoice::where('id', $id)->first();
         $Details = InvoiceAttachment::where('invoice_id', $id)->first();
 
          $id_page =$request->id_page;

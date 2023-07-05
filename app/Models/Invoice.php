@@ -16,6 +16,7 @@ class Invoice extends Model
         'invoice_Date',
         'Due_date',
         'product',
+        'user_id',
         'section_id',
         'Amount_collection',
         'Amount_Commission',
@@ -35,4 +36,9 @@ class Invoice extends Model
    {
    return $this->belongsTo('App\Models\Section');
    }
+
+ public function user()
+ {
+ return $this->belongsTo('App\Models\User');
+ }
 }

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger( 'user_id' )->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('invoice_number', 50);
             $table->date('invoice_Date')->nullable();
             $table->date('Due_date')->nullable();

@@ -1,17 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvoicesReport;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomersReport;
+
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\InvoiceAchiveController;
 use App\Http\Controllers\InvoiceDetailController;
 use App\Http\Controllers\InvoiceAttachmentController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\InvoiceAchiveController;
-use App\Http\Controllers\InvoicesReport;
-use App\Http\Controllers\CustomersReport;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,3 +119,15 @@ Route::get('delete_file', [InvoiceDetailController::class, 'destroy'])->name('de
 
 
 Route::get('/{page}', [AdminController::class , 'index']);
+
+
+Route::group(['middleware' => ['auth' , 'checkUser']] , function(){
+
+    Route::get('/front/home', [FrontController::class, 'index'])->name('fronts.home');
+    Route::get('/front/Orders', [FrontController::class, 'show_orders'])->name('fronts.order');
+
+
+    Route::get('/front/show_invoice/{id}', [FrontController::class, 'show_invoice']);
+
+
+});
