@@ -16,13 +16,14 @@ class checkUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $roles_name = ["owner"];
+        $roles_name = [ "admin" , "owner"];
+        $user= implode(Auth::user()->roles_name) ;
 
-        if(in_array(Auth::user()->roles_name , $roles_name ) ){
+        if(in_array( $user , $roles_name ) ){
 
 
-            Auth::logout();
-            return redirect()->route('login');
+
+            return redirect()->route('home');
     }
     return $next($request);
     }
